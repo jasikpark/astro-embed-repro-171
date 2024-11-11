@@ -1,0 +1,26 @@
+---
+type Props = { class?: string };
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={["Banner full-bleed-container", className]}>
+  <div class="Banner_contents"><slot /></div>
+</div>
+
+<style>
+  .Banner {
+    --background-light: white;
+    --background-dark: oklch(23.93% 0 0);
+
+    background-color: var(
+      --banner-bg,
+      background-color: light-dark(var(--background-light), var(--background-dark))
+    );
+  }
+
+  .Banner_contents {
+    display: flex;
+    place-items: center;
+  }
+</style>

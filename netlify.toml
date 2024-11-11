@@ -1,0 +1,7 @@
+[build]
+command = "pnpm run build"
+functions = "netlify/functions"
+publish = "dist"
+
+[context.deploy-preview.build.environment]
+SHOULD_BUILD_DRAFT_AND_FUTURE = "true"

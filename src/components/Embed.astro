@@ -1,0 +1,18 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { html, transform } from "ultrahtml";
+import sanitize from "ultrahtml/transformers/sanitize";
+import swap from "ultrahtml/transformers/swap";
+
+const { iframe, title, loading } = Astro.props as { iframe: string } & HTMLAttributes<"iframe">;
+
+const output = await transform(iframe, [
+  swap({
+    iframe: (props, children) =>
+      html`<iframe ...${props} title=${title} loading=${loading}>${children}</iframe>`,
+  }),
+  sanitize({ allowElements: ["iframe", "a", "div"] }),
+]);
+---
+
+<Fragment set:html={output} />

@@ -1,0 +1,70 @@
+---
+export type Props = {
+  title: string;
+  href: string;
+};
+
+const { href, title } = Astro.props;
+
+if (!Astro.site) {
+  throw Error("wtf");
+}
+
+const isLocal = href.startsWith("/") || href.startsWith(`https://${Astro.site.toString()}`);
+---
+
+<li class="link-card">
+  <a href={href} target={isLocal ? undefined : "_blank"} rel={isLocal ? undefined : "noreferrer"}>
+    <h2>
+      {title}
+      <span>{isLocal ? <>&rarr;</> : <>&nearr;</>}</span>
+    </h2>
+    {Astro.slots.has("default") ? <slot /> : null}
+  </a>
+</li>
+<style>
+  .link-card {
+    --background-light: white;
+    --background-dark: oklch(23.93% 0 0);
+    list-style: none;
+    display: flex;
+    padding: 0.25rem;
+    background-color: light-dark(var(--background-light), var(--background-dark));
+    background-image: none;
+    background-size: 400%;
+    border-radius: 0.6rem;
+    background-position: 100%;
+    transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow:
+      0 4px 6px -1px oklch(0% 0 0 / 10%),
+      0 2px 4px -2px oklch(0% 0 0 / 10%);
+  }
+
+  .link-card > a {
+    width: 100%;
+    text-decoration: none;
+    line-height: 1.4;
+    padding: 1rem 1.3rem;
+    border-radius: 0.35rem;
+    color: light-dark(oklch(17.76% 0 0), oklch(100% 0 0));
+    background-color: light-dark(var(--background-light), var(--background-dark));
+    opacity: 0.8;
+  }
+  h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  p {
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    color: light-dark(oklch(38.67% 0 0), oklch(38.67% 0 0));
+  }
+  .link-card:is(:hover, :focus-within) {
+    background-position: 0;
+    background-image: var(--accent-gradient);
+  }
+  .link-card:is(:hover, :focus-within) h2 {
+    color: var(--accent);
+  }
+</style>

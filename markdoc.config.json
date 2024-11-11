@@ -1,0 +1,12 @@
+[
+  {
+    "id": "funny-website",
+    "path": "src/content",
+    "schema": {
+      "path": "markdoc.config.ts",
+      "type": "esm",
+      "property": "default",
+      "watch": true
+    }
+  }
+]

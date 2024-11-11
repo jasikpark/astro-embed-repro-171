@@ -1,0 +1,26 @@
+{
+  "[astro]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[svg]": {
+    "editor.defaultFormatter": "jock.svg"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "eslint.options": {
+    "rulePaths": ["./eslint-rules"]
+  },
+  "eslint.validate": ["javascript", "typescript", "typescriptreact", "astro"],
+  "files.associations": {
+    "*.mdoc": "markdown"
+  },
+  "languageToolLinter.languageTool.ignoredWordsInWorkspace": [
+    "attestable",
+    "dnclient",
+    "ezno",
+    "fuzzer"
+  ],
+  "prettier.documentSelectors": ["**/*.astro"],
+  "stylelint.validate": ["astro", "scss"],
+  "typescript.tsdk": "node_modules/typescript/lib"
+}

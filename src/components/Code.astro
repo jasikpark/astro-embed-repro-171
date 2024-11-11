@@ -1,0 +1,28 @@
+---
+import type { MarkerDefinition } from "astro-expressive-code";
+import { Code as ExpressiveCode } from "astro-expressive-code/components";
+import { decode } from "tiny-decode";
+
+type Props = {
+  title?: string | undefined;
+  class?: string | undefined;
+  mark?: MarkerDefinition | MarkerDefinition[] | undefined;
+  ins?: MarkerDefinition | MarkerDefinition[] | undefined;
+  del?: MarkerDefinition | MarkerDefinition[] | undefined;
+  frame?: "auto" | "code" | "terminal" | "none" | undefined;
+  ["data-language"]: string | undefined;
+};
+
+const content = decode((await Astro.slots.render("default")).trim());
+---
+
+<ExpressiveCode
+  code={content}
+  title={Astro.props.title}
+  class={Astro.props.class}
+  mark={Astro.props.mark}
+  ins={Astro.props.ins}
+  del={Astro.props.del}
+  frame={Astro.props.frame ?? "auto"}
+  lang={Astro.props["data-language"]}
+/>

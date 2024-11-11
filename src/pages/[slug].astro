@@ -1,0 +1,73 @@
+---
+import type { GetStaticPaths } from "astro";
+import type { CollectionEntry } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import { getPublishableBlogEntries } from "./_getPublishableBlogEntries";
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const posts = await getPublishableBlogEntries(true);
+
+  // generate paths for the blog posts
+  return posts.map((post) => ({
+    /** Typescript doesn't know that `onlyPosts=true` means this will always be posts */
+    params: { slug: post.collection === "posts" ? post.slug : post.data.url },
+    props: { entry: post },
+  }));
+};
+
+type Props = {
+  entry: CollectionEntry<"posts">;
+};
+
+const { entry } = Astro.props;
+
+// eslint-disable-next-line  @typescript-eslint/unbound-method -- Meh.
+const { Content } = await entry.render();
+---
+
+<Layout
+  title={entry.data.title}
+  description={entry.data.description}
+  ogImage={entry.data.ogImage?.discriminant ? entry.data.ogImage.value.ogImageSrc : undefined}
+  ogImageAlt={entry.data.ogImage?.discriminant ? entry.data.ogImage.value.ogImageAlt : undefined}
+>
+  <main class="prose" style="margin-bottom: 1.5em;">
+    <header>
+      <h1>
+        <a href="/" style="text-decoration:none">🪴</a>/ {entry.data.title}
+      </h1>
+      {
+        entry.data.description ?
+          <p style="font-weight:600; margin-bottom: .75em;">{entry.data.description}</p>
+        : null
+      }
+      <div style="font-size: 0.9em; margin-bottom: 1.5em;">
+        {
+          entry.data.published.toLocaleDateString(undefined, {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          })
+        }
+      </div>
+    </header>
+
+    <Content />
+  </main>
+</Layout>
+
+<style>
+  header {
+    margin-bottom: 3em;
+  }
+
+  .prose :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .prose :global(article > * + *) {
+    margin-block-end: 1.5em;
+  }
+</style>

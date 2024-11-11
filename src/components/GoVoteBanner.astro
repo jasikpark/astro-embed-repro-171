@@ -1,0 +1,44 @@
+---
+import Banner from "./Banner.astro";
+---
+
+{
+  // If the year is divisible by 4, it's election year in the USA.
+  new Date().getFullYear() % 4 === 0 ?
+    <Banner class="GoVoteBanner">
+      <p>
+        <s>
+          <a href="https://vote.gov">Register to Vote 🇺🇸</a>
+        </s>{" "}
+        <a href="https://docs.google.com/document/d/e/2PACX-1vRMxV09kdojzMdyOfapJUOB6Ko2_1iAfIm8ELeIgma21wIt5HoTqP1QXadF01eZc0ySrPW6VtU_veyp/pub">
+          Do mutual aid 🫂
+        </a>
+      </p>
+    </Banner>
+  : null
+}
+
+<style is:global>
+  .GoVoteBanner {
+    --banner-bg: light-dark(oklch(95.514004% 0 0), oklch(25.62929% 0 0));
+  }
+
+  s::before,
+  s::after {
+    clip-path: inset(100%);
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  s::before {
+    content: " [start of stricken text] ";
+  }
+
+  s::after {
+    content: " [end of stricken text] ";
+  }
+</style>

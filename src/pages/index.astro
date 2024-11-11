@@ -1,0 +1,61 @@
+---
+import Card from "../components/Card.astro";
+import Layout from "../layouts/Layout.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../site-config-vars";
+import { getPublishableBlogEntries, PAGE_SIZE } from "./_getPublishableBlogEntries";
+
+const allPosts = await getPublishableBlogEntries();
+const posts = allPosts.slice(0, PAGE_SIZE);
+---
+
+{/** Copied to [page.astro] */}
+<Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <main class="prose">
+    <ul class="full-bleed-container">
+      {
+        posts.map((post) => (
+          <li>
+            <Card
+              title={post.data.title}
+              href={post.collection === "posts" ? `/${post.slug}/` : post.data.url}
+            >
+              <div>
+                {post.data.description ?
+                  <div style="margin-bottom: .75em; text-wrap: balance;">
+                    {post.data.description}
+                  </div>
+                : null}
+                <div style="font-size: 0.9em;">
+                  {post.data.published.toLocaleDateString(undefined, {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </div>
+              </div>
+            </Card>
+          </li>
+        ))
+      }
+    </ul>
+    {
+      allPosts.length > PAGE_SIZE ?
+        <div style="display: flex; justify-content: center; list-style-type: none;margin-bottom: 2em;">
+          <a href="/posts/2">More posts</a>
+        </div>
+      : null
+    }
+  </main>
+</Layout>
+
+<style>
+  ul {
+    margin-bottom: 2em;
+    padding-inline-start: 0;
+    list-style: "";
+  }
+
+  li {
+    margin-bottom: 1em;
+  }
+</style>

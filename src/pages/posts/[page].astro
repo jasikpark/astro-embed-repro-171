@@ -1,0 +1,76 @@
+---
+import Pagination from "#components/Pagination.astro";
+import type { GetStaticPaths, Page } from "astro";
+import type { CollectionEntry } from "astro:content";
+import { getPublishableBlogEntries, PAGE_SIZE } from "../_getPublishableBlogEntries";
+import Card from "../../components/Card.astro";
+import Layout from "../../layouts/Layout.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../../site-config-vars";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getPublishableBlogEntries();
+
+  return paginate(posts, { pageSize: PAGE_SIZE });
+}) satisfies GetStaticPaths;
+
+type Props = {
+  page: Page<CollectionEntry<"posts" | "externalPosts">>;
+};
+
+const { page } = Astro.props;
+---
+
+{/** Copied to [index.astro] */}
+<Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <main class="prose">
+    <ul class="full-bleed-container">
+      {
+        page.data.map((post) => (
+          <li>
+            <Card
+              title={post.data.title}
+              href={post.collection === "posts" ? `/${post.slug}/` : post.data.url}
+            >
+              <div>
+                {post.data.description ?
+                  <div style="margin-bottom: .75em; text-wrap: balance;">
+                    {post.data.description}
+                  </div>
+                : null}
+                <div style="font-size: 0.9em;">
+                  {post.data.published.toLocaleDateString(undefined, {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </div>
+              </div>
+            </Card>
+          </li>
+        ))
+      }
+    </ul>
+    <div style="display: flex; justify-content: center; list-style-type: none;margin-bottom: 1em;">
+      <Pagination
+        firstPage={"/"}
+        previousPage={page.currentPage === 2 ? "/" : (page.url.prev ?? null)}
+        nextPage={page.url.next ?? null}
+        lastPage={page.url.last}
+        currentPage={page.currentPage}
+        totalPages={page.lastPage}
+      />
+    </div>
+  </main>
+</Layout>
+
+<style>
+  ul {
+    margin-bottom: 2em;
+    padding-inline-start: 0;
+    list-style: "";
+  }
+
+  li {
+    margin-bottom: 1em;
+  }
+</style>

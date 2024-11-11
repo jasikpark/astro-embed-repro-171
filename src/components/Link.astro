@@ -1,0 +1,17 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { formatUrl } from "src/util/formatUrl";
+
+const { href, ...props } = Astro.props as HTMLAttributes<"a">;
+
+const defaultSlot = Astro.slots.has("default") ? await Astro.slots.render("default") : "";
+
+const children = defaultSlot || href;
+
+const formattedChildren =
+  children instanceof URL ? formatUrl(children.toString())
+  : typeof children === "string" ? formatUrl(children)
+  : children;
+---
+
+<a href={href} {...props} set:html={formattedChildren} />

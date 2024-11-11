@@ -1,0 +1,81 @@
+{
+  "name": "jasik-2.0",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "SHOULD_BUILD_DRAFT_AND_FUTURE=true astro dev",
+    "start": "SHOULD_BUILD_DRAFT_AND_FUTURE=true astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "pnpm run \"/^lint:.*/\"",
+    "lint:js": "eslint .",
+    "lint:css": "stylelint --cache --config ./stylelint.config.js '**/*.{css,astro}'",
+    "check": "pnpm run \"/^check:.*/\"",
+    "check:ts": "tsc -p ./tsconfig.json",
+    "check:astro": "astro check -p ./tsconfig.json"
+  },
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8"
+  },
+  "dependencies": {
+    "@astrojs/check": "0.9.4",
+    "@astrojs/markdoc": "0.11.5",
+    "@astrojs/netlify": "5.5.4",
+    "@astrojs/react": "3.6.2",
+    "@astrojs/rss": "4.0.9",
+    "@astrojs/sitemap": "3.2.1",
+    "@sentry/astro": "8.37.1",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "assert-ts": "0.3.4",
+    "astro": "4.16.10",
+    "astro-capo": "0.0.1",
+    "astro-embed": "0.9.0",
+    "astro-expressive-code": "0.38.3",
+    "astro-icon": "1.1.2",
+    "lightningcss": "1.28.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "sharp": "0.33.5",
+    "shiki": "1.22.2",
+    "stylelint": "16.10.0",
+    "stylelint-gamut": "1.3.4",
+    "tiny-decode": "0.1.3",
+    "ultrahtml": "1.5.3"
+  },
+  "packageManager": "pnpm@9.12.3",
+  "devDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "4.4.0",
+    "@iconify-json/ri": "1.2.3",
+    "@types/eslint__js": "8.42.3",
+    "@types/node": "22.9.0",
+    "eslint": "9.14.0",
+    "eslint-plugin-astro": "1.3.1",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "postcss-html": "1.7.0",
+    "prettier": "3.3.3",
+    "prettier-plugin-astro": "0.14.1",
+    "prettier-plugin-toml": "2.0.1",
+    "stylelint-config-astro": "1.0.4",
+    "stylelint-config-recommended": "14.0.1",
+    "typescript": "5.6.3",
+    "typescript-eslint": "8.13.0",
+    "zod": "3.23.8"
+  },
+  "imports": {
+    "#assets/*": [
+      "./src/assets/*",
+      "./src/assets/*.ts",
+      "./src/assets/*.tsx"
+    ],
+    "#components/*": [
+      "./src/components/*",
+      "./src/components/*.ts",
+      "./src/components/*.tsx"
+    ]
+  }
+}
