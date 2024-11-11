@@ -1,19 +1,16 @@
 ---
 import Card from "../components/Card.astro";
 import Layout from "../layouts/Layout.astro";
-import { SITE_DESCRIPTION, SITE_TITLE } from "../site-config-vars";
-import { getPublishableBlogEntries, PAGE_SIZE } from "./_getPublishableBlogEntries";
+import { getPublishableBlogEntries } from "./_getPublishableBlogEntries";
 
 const allPosts = await getPublishableBlogEntries();
-const posts = allPosts.slice(0, PAGE_SIZE);
 ---
 
-{/** Copied to [page.astro] */}
-<Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+<Layout>
   <main class="prose">
     <ul class="full-bleed-container">
       {
-        posts.map((post) => (
+        allPosts.map((post) => (
           <li>
             <Card
               title={post.data.title}
@@ -38,13 +35,6 @@ const posts = allPosts.slice(0, PAGE_SIZE);
         ))
       }
     </ul>
-    {
-      allPosts.length > PAGE_SIZE ?
-        <div style="display: flex; justify-content: center; list-style-type: none;margin-bottom: 2em;">
-          <a href="/posts/2">More posts</a>
-        </div>
-      : null
-    }
   </main>
 </Layout>
 

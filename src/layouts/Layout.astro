@@ -1,76 +1,11 @@
 ---
 import GoVoteBanner from "#components/GoVoteBanner.astro";
 import type { ImageMetadata } from "astro";
-import { Head } from "astro-capo";
 import { Icon } from "astro-icon/components";
-import { getImage } from "astro:assets";
-import { SITE_TITLE } from "src/site-config-vars";
-import { z } from "zod";
-import defaultOgImage from "#assets/og-image.png";
-
-export type Props = {
-  title: string;
-  description?: string;
-  ogImage?: ImageMetadata;
-  ogImageAlt?: string;
-};
-
-const {
-  title,
-  description,
-  ogImage = defaultOgImage,
-  ogImageAlt = "Bowl of TARDIS with Caleb's face next to it",
-} = Astro.props;
-
-const ogImageDeets = await getImage({
-  src: ogImage,
-});
-
-const ogImageDeetsAttributes = ogImageDeets.attributes as Record<string, unknown>;
 ---
 
 <!doctype html>
 <html lang="en">
-  <Head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>{title}</title>
-    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
-    <meta name="color-scheme" content="dark light" />
-    <meta name="description" content={description} />
-    <meta name="generator" content={Astro.generator} />
-
-    <!-- Facebook Meta Tags -->
-    <meta property="og:url" content={Astro.url} />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImageDeets.src} />
-    <meta property="og:image:alt" content={ogImageAlt} />
-    <meta
-      property="og:image:width"
-      content={z.number().parse(ogImageDeetsAttributes.width).toString()}
-    />
-    <meta
-      property="og:image:height"
-      content={z.number().parse(ogImageDeetsAttributes.height).toString()}
-    />
-
-    <!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta property="twitter:domain" content={Astro.site} />
-    <meta property="twitter:url" content={Astro.url} />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage.src} />
-
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title={SITE_TITLE}
-      href={new URL("rss.xml", Astro.site).toString()}
-    />
-  </Head>
   <body>
     <GoVoteBanner />
     <slot />
@@ -107,8 +42,6 @@ const ogImageDeetsAttributes = ogImageDeets.attributes as Record<string, unknown
       </div>
     </footer>
     <style is:global>
-      @import url("../styles/link-preview.css");
-
       :root {
         --accent: oklch(54.13% 0.247 293.01);
         --accent-gradient: linear-gradient(
